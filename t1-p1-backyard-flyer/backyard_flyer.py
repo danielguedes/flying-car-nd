@@ -1,3 +1,4 @@
+import math
 import argparse
 import time
 from enum import Enum
@@ -84,9 +85,9 @@ class BackyardFlyer(Drone):
     def calculate_box(self):
         return [
             [15, 0, 3, 0],
-            [15, 15, 3, 1.5708],
-            [0, 15, 3, 3.14159],
-            [0, 0, 3, 4.71239]
+            [15, 15, 3, math.pi*0.5],
+            [0, 15, 3, math.pi*1.0],
+            [0, 0, 3, math.pi*1.5]
         ]
 
     def in_waypoint(self, waypoint):

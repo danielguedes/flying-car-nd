@@ -35,10 +35,11 @@ class BackyardFlyer(Drone):
         self.register_callback(MsgID.STATE, self.state_callback)
 
     def global_position_callback(self):
-        # LOCAL_POSITION message can contains weird values if it's received before
-        # first GLOBAL_POSITION message (might be a bug)
-        # so we wait for the first message before transition to arming
         if self.flight_state == States.MANUAL:
+
+            # LOCAL_POSITION message can contains weird values if it's received before
+            # first GLOBAL_POSITION message (might be a bug)
+            # so we wait for the first message before transition to arming
             self.gps_ready = True
 
     def local_position_callback(self):
@@ -50,6 +51,7 @@ class BackyardFlyer(Drone):
                 self.waypoint_transition()
         
         elif self.flight_state == States.WAYPOINT:
+
             if self.in_waypoint(self.target_position):
                 # is_still provides precise navigation and landing
                 if len(self.all_waypoints) < 1 and self.is_still:
@@ -62,6 +64,7 @@ class BackyardFlyer(Drone):
         self.is_still = abs(self.local_velocity[0]) < max_velocity and abs(self.local_velocity[1]) < max_velocity and abs(self.local_velocity[2]) < max_velocity
 
         if self.flight_state == States.LANDING:
+            
             # global_home[2] isn't used for landing detection
             # because it's value is always zero (looks like a bug)
             if abs(self.local_position[2]) < 0.01:
